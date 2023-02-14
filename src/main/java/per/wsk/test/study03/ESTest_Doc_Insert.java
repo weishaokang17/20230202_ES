@@ -13,6 +13,9 @@ import per.wsk.test.study02.Country;
 
 import java.io.IOException;
 
+/**
+ * 向索引中添加数据
+ */
 public class ESTest_Doc_Insert {
 
 
@@ -23,12 +26,12 @@ public class ESTest_Doc_Insert {
 
         // 插入数据
         IndexRequest request = new IndexRequest();
-        request.index("country").id("10001");
+        request.index("country").id("10002");
 
         Country country = new Country();
-        country.setName("美国");
-        country.setAge(270);
-        country.setCapital("华盛顿");
+        country.setName("中国");
+        country.setAge(4770);
+        country.setCapital("北京");
 
         // 向ES插入数据，必须将数据转换位JSON格式
         ObjectMapper mapper = new ObjectMapper();

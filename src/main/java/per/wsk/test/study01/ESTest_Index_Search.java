@@ -9,6 +9,9 @@ import org.elasticsearch.client.indices.GetIndexResponse;
 
 import java.io.IOException;
 
+/**
+ * 查询索引
+ */
 public class ESTest_Index_Search {
 
 

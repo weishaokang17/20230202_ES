@@ -9,6 +9,9 @@ import org.elasticsearch.client.indices.CreateIndexResponse;
 
 import java.io.IOException;
 
+/**
+ * 创建索引
+ */
 public class ESTest_Index_Create {
 
 

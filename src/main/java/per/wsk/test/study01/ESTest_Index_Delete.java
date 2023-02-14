@@ -11,6 +11,9 @@ import org.elasticsearch.client.indices.GetIndexResponse;
 
 import java.io.IOException;
 
+/**
+ * 删除索引
+ */
 public class ESTest_Index_Delete {
 
     public static void main(String[] args) throws IOException {
