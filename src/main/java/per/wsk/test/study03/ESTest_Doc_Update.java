@@ -25,8 +25,8 @@ public class ESTest_Doc_Update {
 
         // 修改数据
         UpdateRequest request = new UpdateRequest();
-        request.index("country").id("10001");
-        request.doc(XContentType.JSON,"capital","纽约");
+        request.index("country").id("10002");
+        request.doc(XContentType.JSON,"capital","上海");
 
         UpdateResponse response = esClient.update(request, RequestOptions.DEFAULT);
 
