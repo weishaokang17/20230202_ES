@@ -6,13 +6,17 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.index.query.TermsQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 
 
 import java.io.IOException;
@@ -154,7 +158,7 @@ public class ESTest_Doc_Query {
         }*/
 
         // 7. 范围查询
-        SearchRequest request = new SearchRequest();
+        /*SearchRequest request = new SearchRequest();
         request.indices("country");
 
         SearchSourceBuilder builder = new SearchSourceBuilder();
@@ -175,9 +179,98 @@ public class ESTest_Doc_Query {
 
         for ( SearchHit hit : hits ) {
             System.out.println(hit.getSourceAsString());
+        }*/
+
+        // 8. 模糊查询
+        /*SearchRequest request = new SearchRequest();
+        request.indices("country");
+
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        builder.query(QueryBuilders.fuzzyQuery("name", "wangwu").fuzziness(Fuzziness.TWO));
+
+        request.source(builder);
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+
+        System.out.println(hits.getTotalHits());
+        System.out.println(response.getTook());
+
+        for ( SearchHit hit : hits ) {
+            System.out.println(hit.getSourceAsString());
+        }*/
+
+        //9.高亮查询
+        /*SearchRequest request = new SearchRequest();
+        request.indices("country");
+
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        TermsQueryBuilder termsQueryBuilder = QueryBuilders.termsQuery("name", "美国");
+
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        highlightBuilder.preTags("<font color='red'>");
+        highlightBuilder.postTags("</font>");
+        highlightBuilder.field("name");
+
+        builder.highlighter(highlightBuilder);
+        builder.query(termsQueryBuilder);
+
+        request.source(builder);
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+
+        System.out.println(hits.getTotalHits());
+        System.out.println(response.getTook());
+
+        for ( SearchHit hit : hits ) {
+            System.out.println(hit.getSourceAsString());
+        }*/
+
+
+        // 10. 聚合查询
+        /*SearchRequest request = new SearchRequest();
+        request.indices("country");
+
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+
+        AggregationBuilder aggregationBuilder = AggregationBuilders.max("maxAge").field("age");
+        builder.aggregation(aggregationBuilder);
+
+        request.source(builder);
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+
+        System.out.println(response);
+        System.out.println(hits.getTotalHits());
+        System.out.println(response.getTook());
+
+        for ( SearchHit hit : hits ) {
+            System.out.println(hit.getSourceAsString());
+        }*/
+
+        // 11. 分组查询
+        SearchRequest request = new SearchRequest();
+        request.indices("country");
+
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+
+        AggregationBuilder aggregationBuilder = AggregationBuilders.terms("ageGroup").field("age");
+        builder.aggregation(aggregationBuilder);
+
+        request.source(builder);
+        SearchResponse response = esClient.search(request, RequestOptions.DEFAULT);
+
+        SearchHits hits = response.getHits();
+
+        System.out.println(response);
+        System.out.println(hits.getTotalHits());
+        System.out.println(response.getTook());
+
+        for ( SearchHit hit : hits ) {
+            System.out.println(hit.getSourceAsString());
         }
-
-
 
         esClient.close();
     }
